@@ -3,6 +3,12 @@ import { gql } from "@apollo/client";
 
 const API_URL = "https://holy-waterfall-2142.fly.dev/";
 
+const query = gql`
+  {
+    now(id: "1")
+  }
+`;
+
 const ResultRow = ({ text, result }: { text: string; result: string }) => (
   <tr>
     <td className="font-bold pr-12 pb-6">{text}</td>
@@ -11,9 +17,10 @@ const ResultRow = ({ text, result }: { text: string; result: string }) => (
 );
 
 const NowGET = async () => {
-  const { data } = await fetch(API_URL + `?query={now}`).then((res) =>
-    res.json()
-  );
+  const qs = new URLSearchParams();
+  qs.append("query", query.loc!.source.body);
+
+  const { data } = await fetch(API_URL + `?` + qs.toString()).then((res) => res.json());
 
   return <ResultRow text="Now via fetch (GET)" result={data.now} />;
 };
@@ -24,17 +31,11 @@ const NowPOST = async () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ query: "{now}" }),
+    body: JSON.stringify({ query: query.loc!.source.body }),
   }).then((res) => res.json());
 
   return <ResultRow text="Now via fetch (POST)" result={data.now} />;
 };
-
-const query = gql`
-  {
-    now
-  }
-`;
 
 const NowApollo = async () => {
   const { data } = await client.query({ query });
