@@ -12,7 +12,9 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}</body>
+      <body
+        className="grid items-center justify-center min-h-screen bg-gray-50"
+      >{children}</body>
     </html>
   )
 }
