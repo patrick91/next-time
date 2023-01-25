@@ -1,6 +1,8 @@
 import { client, clientNoCache } from "@/lib/client";
 import { gql } from "@apollo/client";
 
+import { format } from "date-fns";
+
 const API_URL = "https://holy-waterfall-2142.fly.dev/";
 
 const query = gql`
@@ -10,17 +12,21 @@ const query = gql`
 `;
 
 const ResultRow = ({ text, result }: { text: string; result: string }) => (
-  <tr>
-    <td className="font-bold pr-12 pb-6">{text}</td>
-    <td className="pb-6">{result}</td>
-  </tr>
+  <>
+    <dt className="font-bold mb-4">{text}</dt>
+    <dd className="tabular-nums text-right">
+      {format(new Date(result), "HH:mm:ss.SSS")}
+    </dd>
+  </>
 );
 
 const NowGET = async () => {
   const qs = new URLSearchParams();
   qs.append("query", query.loc!.source.body);
 
-  const { data } = await fetch(API_URL + `?` + qs.toString()).then((res) => res.json());
+  const { data } = await fetch(API_URL + `?` + qs.toString()).then((res) =>
+    res.json()
+  );
 
   return <ResultRow text="Now via fetch (GET)" result={data.now} />;
 };
@@ -51,7 +57,7 @@ const NowApolloNoCache = async () => {
 
 export const Now = () => {
   return (
-    <table className="text-3xl">
+    <dl className="text-3xl grid grid-cols-2 gap-4">
       {/* @ts-expect-error Server Component */}
       <NowGET />
       {/* @ts-expect-error Server Component */}
@@ -60,6 +66,6 @@ export const Now = () => {
       <NowApollo />
       {/* @ts-expect-error Server Component */}
       <NowApolloNoCache />
-    </table>
+    </dl>
   );
 };
