@@ -2,23 +2,20 @@ import { client, clientNoCache } from "@/lib/client";
 import { gql } from "@apollo/client";
 
 import { format } from "date-fns";
+import { NowApolloClient } from "./now-client";
+import { ResultRow } from "./result-row";
 
 const API_URL = "https://holy-waterfall-2142.fly.dev/";
 
 const query = gql`
   {
-    now(id: "1")
+    currentTime(id: "1") {
+      id
+      now
+      note
+    }
   }
 `;
-
-const ResultRow = ({ text, result }: { text: string; result: string }) => (
-  <>
-    <dt className="font-bold mb-4">{text}</dt>
-    <dd className="tabular-nums text-right">
-      {format(new Date(result), "HH:mm:ss.SSS")}
-    </dd>
-  </>
-);
 
 const NowGET = async () => {
   const qs = new URLSearchParams();
@@ -28,7 +25,7 @@ const NowGET = async () => {
     res.json()
   );
 
-  return <ResultRow text="Now via fetch (GET)" result={data.now} />;
+  return <ResultRow text="Now via fetch (GET)" result={data.currentTime} />;
 };
 
 const NowPOST = async () => {
@@ -40,19 +37,21 @@ const NowPOST = async () => {
     body: JSON.stringify({ query: query.loc!.source.body }),
   }).then((res) => res.json());
 
-  return <ResultRow text="Now via fetch (POST)" result={data.now} />;
+  return <ResultRow text="Now via fetch (POST)" result={data.currentTime} />;
 };
 
 const NowApollo = async () => {
   const { data } = await client.query({ query });
 
-  return <ResultRow text="Now via Apollo" result={data.now} />;
+  return <ResultRow text="Now via Apollo" result={data.currentTime} />;
 };
 
 const NowApolloNoCache = async () => {
   const { data } = await clientNoCache.query({ query });
 
-  return <ResultRow text="Now via Apollo (no cache)" result={data.now} />;
+  return (
+    <ResultRow text="Now via Apollo (no cache)" result={data.currentTime} />
+  );
 };
 
 export const Now = () => {
@@ -66,6 +65,8 @@ export const Now = () => {
       <NowApollo />
       {/* @ts-expect-error Server Component */}
       <NowApolloNoCache />
+
+      <NowApolloClient />
     </dl>
   );
 };
