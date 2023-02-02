@@ -1,39 +1,20 @@
 "use client";
 
-import { client } from "@/lib/client";
+import { getClient } from "@/lib/client";
 import {
   ApolloProvider,
-  gql,
   SuspenseCache,
   useMutation,
   useSuspenseQuery_experimental,
 } from "@apollo/client";
 import { format } from "date-fns";
 import { Suspense } from "react";
+import { mutation, query } from "./operations";
 
 const suspenseCache = new SuspenseCache();
 
-const query = gql`
-  {
-    currentTime(id: "1") {
-      id
-      now
-      note
-    }
-  }
-`;
-
-const mutation = gql`
-  mutation UpdateTime($id: ID!, $note: String!) {
-    updateCurrentTime(id: $id, note: $note) {
-      id
-      now
-      note
-    }
-  }
-`;
-
 const UpdateTimeButton = () => {
+  const client = getClient();
   const [updateTime, { loading, error }] = useMutation(mutation, {
     client,
   });
@@ -57,7 +38,10 @@ const UpdateTimeButton = () => {
 };
 
 export const Now = () => {
-  const { data } = useSuspenseQuery_experimental(query);
+  const { data } = useSuspenseQuery_experimental(query, {
+    client: getClient(),
+    suspenseCache,
+  });
 
   return (
     <>
@@ -69,7 +53,9 @@ export const Now = () => {
       </dt>
 
       <dd className="tabular-nums text-right">
-        <div suppressHydrationWarning>{format(new Date(data?.currentTime.now), "HH:mm:ss.SSS")}</div>
+        <div suppressHydrationWarning>
+          {format(new Date(data?.currentTime.now), "HH:mm:ss.SSS")}
+        </div>
         <div className="text-xs">Note: {data?.currentTime.note}</div>
         <UpdateTimeButton />
       </dd>
@@ -82,11 +68,13 @@ const Loading = () => {
 };
 
 export const NowApolloClientSuspense = () => {
+  const client = getClient();
+
   return (
-    <ApolloProvider client={client} suspenseCache={suspenseCache}>
+    // <ApolloProvider client={client} suspenseCache={suspenseCache}>
       <Suspense fallback={<Loading />}>
         <Now />
       </Suspense>
-    </ApolloProvider>
+    // </ApolloProvider>
   );
 };

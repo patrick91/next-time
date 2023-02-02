@@ -1,21 +1,12 @@
-import { client, clientNoCache } from "@/lib/client";
+import { getClient, clientNoCache } from "@/lib/client";
 import { gql } from "@apollo/client";
 
 import { NowApolloClient } from "./now-client";
 import { NowApolloClientSuspense } from "./now-client-suspense";
+import { query } from "./operations";
 import { ResultRow } from "./result-row";
 
 const API_URL = "https://holy-waterfall-2142.fly.dev/";
-
-const query = gql`
-  {
-    currentTime(id: "1") {
-      id
-      now
-      note
-    }
-  }
-`;
 
 const NowGET = async () => {
   const qs = new URLSearchParams();
@@ -41,6 +32,8 @@ const NowPOST = async () => {
 };
 
 const NowApollo = async () => {
+  const client = getClient();
+
   const { data } = await client.query({ query });
 
   return <ResultRow text="Now via Apollo" result={data.currentTime} />;
