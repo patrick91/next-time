@@ -5,16 +5,16 @@ let client: ApolloClient<any> | null = null;
 export const getClient = () => {
   if (!client) {
     client = new ApolloClient({
-      cache: new InMemoryCache(
-        typeof window === "undefined"
-          ? undefined
-          : (window as any).__APOLLO_STATE__
-      ),
+      cache: new InMemoryCache(),
       ssrMode: typeof window === "undefined",
       link: new HttpLink({
         uri: "https://holy-waterfall-2142.fly.dev/",
       }),
     });
+
+    if (typeof window !== "undefined") {
+      client.cache.restore((window as any).__APOLLO_STATE__);
+    }
   }
 
   return client;

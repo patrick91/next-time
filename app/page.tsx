@@ -22,8 +22,9 @@ export default async function Home() {
 
   return (
     <>
-      {app}
+      {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
       <Script
+        strategy="beforeInteractive"
         id="apollo-cache"
         dangerouslySetInnerHTML={{
           __html: `window.__APOLLO_STATE__=${JSON.stringify(state).replace(
@@ -32,6 +33,7 @@ export default async function Home() {
           )};`,
         }}
       />
+      {app}
     </>
   );
 }

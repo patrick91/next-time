@@ -35,6 +35,7 @@ export const NowApolloClient = () => {
 
   const { loading, data, error } = useQuery(query, {
     client,
+    fetchPolicy: "cache-only",
   });
 
   return (

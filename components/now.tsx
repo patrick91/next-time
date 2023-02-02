@@ -61,7 +61,7 @@ export const Now = () => {
 
       <NowApolloClient />
 
-      <NowApolloClientSuspense />
+      {/* <NowApolloClientSuspense /> */}
     </dl>
   );
 };
