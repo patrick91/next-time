@@ -1,30 +1,13 @@
 "use client";
 
-import { client } from "@/lib/client";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { getClient } from "@/lib/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { format } from "date-fns";
-
-const query = gql`
-  {
-    currentTime(id: "1") {
-      id
-      now
-      note
-    }
-  }
-`;
-
-const mutation = gql`
-  mutation UpdateTime($id: ID!, $note: String!) {
-    updateCurrentTime(id: $id, note: $note) {
-      id
-      now
-      note
-    }
-  }
-`;
+import { mutation, query } from "./operations";
 
 const UpdateTimeButton = () => {
+  const client = getClient();
+
   const [updateTime, { loading, error }] = useMutation(mutation, {
     client,
   });
@@ -48,8 +31,11 @@ const UpdateTimeButton = () => {
 };
 
 export const NowApolloClient = () => {
+  const client = getClient();
+
   const { loading, data, error } = useQuery(query, {
     client,
+    fetchPolicy: "cache-only",
   });
 
   return (

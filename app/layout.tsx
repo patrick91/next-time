@@ -1,4 +1,3 @@
-import { Links } from "@/components/links";
 import "./globals.css";
 
 export default function RootLayout({
