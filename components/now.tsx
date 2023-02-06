@@ -28,6 +28,24 @@ const NowGET = async () => {
   return <ResultRow text="Now via fetch (GET)" result={data.currentTime} />;
 };
 
+const NowGETRevalidate = async () => {
+  const qs = new URLSearchParams();
+  qs.append("query", query.loc!.source.body);
+
+  const { data } = await fetch(API_URL + `?` + qs.toString(), {
+    next: {
+      revalidate: 1,
+    },
+  }).then((res) => res.json());
+
+  return (
+    <ResultRow
+      text="Now via fetch (GET+revalidate)"
+      result={data.currentTime}
+    />
+  );
+};
+
 const NowPOST = async () => {
   const { data } = await fetch(API_URL, {
     method: "POST",
@@ -51,7 +69,9 @@ const NowApolloRevalidate = async () => {
     query,
     context: {
       fetchOptions: {
-        next: { revalidate: 1 },
+        next: {
+          revalidate: 1,
+        },
       },
     },
   });
@@ -77,6 +97,8 @@ export const Now = () => {
     <dl className="text-3xl grid grid-cols-2 gap-4">
       {/* @ts-expect-error Server Component */}
       <NowGET />
+      {/* @ts-expect-error Server Component */}
+      <NowGETRevalidate />
       {/* @ts-expect-error Server Component */}
       <NowPOST />
       {/* @ts-expect-error Server Component */}
