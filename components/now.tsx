@@ -115,6 +115,26 @@ const NowApolloNoCache = async () => {
     />
   );
 };
+const NowApolloNoCacheRevalidate = async () => {
+  const { data } = await clientNoCache.query({
+    query,
+    context: {
+      fetchOptions: {
+        next: {
+          revalidate: 1,
+        },
+      },
+    },
+  });
+
+  return (
+    <ResultRow
+      text="Now via Apollo"
+      tags={["POST", "Apollo", "Server", "No Apollo Cache", "Revalidate"]}
+      result={data.currentTime}
+    />
+  );
+};
 
 export const Now = () => {
   return (
@@ -131,6 +151,8 @@ export const Now = () => {
       <NowApolloNoCache />
       {/* @ts-expect-error Server Component */}
       <NowApolloRevalidate />
+      {/* @ts-expect-error Server Component */}
+      <NowApolloNoCacheRevalidate />
 
       <NowApolloClient />
 
