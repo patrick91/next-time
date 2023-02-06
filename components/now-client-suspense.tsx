@@ -10,6 +10,7 @@ import {
 } from "@apollo/client";
 import { format } from "date-fns";
 import { Suspense } from "react";
+import { Tag } from "./tag";
 
 const suspenseCache = new SuspenseCache();
 
@@ -59,17 +60,23 @@ const UpdateTimeButton = () => {
 export const Now = () => {
   const { data } = useSuspenseQuery_experimental(query);
 
+  const tags = ["POST", "Apollo", "Client", "Suspense"];
+
   return (
     <>
-      <dt className="font-bold mb-4 relative">
-        <span className="bg-green-500 font-bold text-white rounded-3xl px-2 text-sm absolute right-full mr-2 mt-2">
-          client
-        </span>{" "}
-        Now via Apollo (suspense)
+      <dt className="font-bold mb-4">
+        Now via Apollo
+        <div>
+          {tags.map((tag) => (
+            <Tag key={tag} tag={tag} />
+          ))}
+        </div>
       </dt>
 
       <dd className="tabular-nums text-right">
-        <div suppressHydrationWarning>{format(new Date(data?.currentTime.now), "HH:mm:ss.SSS")}</div>
+        <div suppressHydrationWarning>
+          {format(new Date(data?.currentTime.now), "HH:mm:ss.SSS")}
+        </div>
         <div className="text-xs">Note: {data?.currentTime.note}</div>
         <UpdateTimeButton />
       </dd>

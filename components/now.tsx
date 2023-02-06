@@ -25,7 +25,13 @@ const NowGET = async () => {
     res.json()
   );
 
-  return <ResultRow text="Now via fetch (GET)" result={data.currentTime} />;
+  return (
+    <ResultRow
+      tags={["GET", "Server"]}
+      text="Now via fetch"
+      result={data.currentTime}
+    />
+  );
 };
 
 const NowGETRevalidate = async () => {
@@ -40,7 +46,8 @@ const NowGETRevalidate = async () => {
 
   return (
     <ResultRow
-      text="Now via fetch (GET+revalidate)"
+      text="Now via fetch"
+      tags={["GET", "Revalidate", "Server"]}
       result={data.currentTime}
     />
   );
@@ -55,13 +62,25 @@ const NowPOST = async () => {
     body: JSON.stringify({ query: query.loc!.source.body }),
   }).then((res) => res.json());
 
-  return <ResultRow text="Now via fetch (POST)" result={data.currentTime} />;
+  return (
+    <ResultRow
+      text="Now via fetch"
+      tags={["POST", "Server"]}
+      result={data.currentTime}
+    />
+  );
 };
 
 const NowApollo = async () => {
   const { data } = await client.query({ query });
 
-  return <ResultRow text="Now via Apollo" result={data.currentTime} />;
+  return (
+    <ResultRow
+      tags={["POST", "Apollo", "Server"]}
+      text="Now via Apollo"
+      result={data.currentTime}
+    />
+  );
 };
 
 const NowApolloRevalidate = async () => {
@@ -78,7 +97,8 @@ const NowApolloRevalidate = async () => {
 
   return (
     <ResultRow
-      text="Now via Apollo (revalidates via fetch)"
+      tags={["POST", "Apollo", "Server", "Revalidate"]}
+      text="Now via Apollo"
       result={data.currentTime}
     />
   );
@@ -88,13 +108,17 @@ const NowApolloNoCache = async () => {
   const { data } = await clientNoCache.query({ query });
 
   return (
-    <ResultRow text="Now via Apollo (no cache)" result={data.currentTime} />
+    <ResultRow
+      text="Now via Apollo"
+      tags={["POST", "Apollo", "Server", "No Apollo Cache"]}
+      result={data.currentTime}
+    />
   );
 };
 
 export const Now = () => {
   return (
-    <dl className="text-3xl grid grid-cols-2 gap-4">
+    <dl className="text-2xl grid grid-cols-2 gap-4">
       {/* @ts-expect-error Server Component */}
       <NowGET />
       {/* @ts-expect-error Server Component */}

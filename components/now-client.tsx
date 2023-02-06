@@ -3,6 +3,7 @@
 import { client } from "@/lib/client";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { format } from "date-fns";
+import { Tag } from "./tag";
 
 const query = gql`
   {
@@ -52,13 +53,17 @@ export const NowApolloClient = () => {
     client,
   });
 
+  const tags = ["POST", "Apollo", "Client"];
+
   return (
     <>
-      <dt className="font-bold mb-4 relative">
-        <span className="bg-green-500 font-bold text-white rounded-3xl px-2 text-sm absolute right-full mr-2 mt-2">
-          client
-        </span>{" "}
+      <dt className="font-bold mb-4">
         Now via Apollo
+        <div>
+          {tags.map((tag) => (
+            <Tag key={tag} tag={tag} />
+          ))}
+        </div>
       </dt>
       {data?.currentTime ? (
         <dd className="tabular-nums text-right">

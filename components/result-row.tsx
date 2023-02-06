@@ -1,8 +1,10 @@
 import { format } from "date-fns";
+import { Tag } from "./tag";
 
 export const ResultRow = ({
   text,
   result,
+  tags,
 }: {
   text: string;
   result?: {
@@ -10,9 +12,17 @@ export const ResultRow = ({
     now: string;
     note: string;
   };
+  tags: string[];
 }) => (
   <>
-    <dt className="font-bold mb-4">{text}</dt>
+    <dt className="font-bold mb-4">
+      {text}
+      <div>
+        {tags.map((tag) => (
+          <Tag key={tag} tag={tag} />
+        ))}
+      </div>
+    </dt>
     {result ? (
       <dd className="tabular-nums text-right">
         <div>{format(new Date(result.now), "HH:mm:ss.SSS")}</div>
