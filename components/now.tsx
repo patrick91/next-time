@@ -8,8 +8,8 @@ import { ResultRow } from "./result-row";
 const API_URL = "https://holy-waterfall-2142.fly.dev/";
 
 const query = gql`
-  {
-    currentTime(id: "1") {
+  query CurrentTime($id: ID!) {
+    currentTime(id: $id) {
       id
       now
       note
@@ -20,6 +20,7 @@ const query = gql`
 const NowGET = async () => {
   const qs = new URLSearchParams();
   qs.append("query", query.loc!.source.body);
+  qs.append("variables", JSON.stringify({ id: "1" }));
 
   const { data } = await fetch(API_URL + `?` + qs.toString()).then((res) =>
     res.json()
@@ -27,7 +28,7 @@ const NowGET = async () => {
 
   return (
     <ResultRow
-      tags={["GET", "Server"]}
+      tags={["GET", "Server", "ID:1"]}
       text="Now via fetch"
       result={data.currentTime}
     />
@@ -37,6 +38,7 @@ const NowGET = async () => {
 const NowGETRevalidate = async () => {
   const qs = new URLSearchParams();
   qs.append("query", query.loc!.source.body);
+  qs.append("variables", JSON.stringify({ id: "2" }));
 
   const { data } = await fetch(API_URL + `?` + qs.toString(), {
     next: {
@@ -47,7 +49,7 @@ const NowGETRevalidate = async () => {
   return (
     <ResultRow
       text="Now via fetch"
-      tags={["GET", "Revalidate", "Server"]}
+      tags={["GET", "Revalidate", "Server", "ID:2"]}
       result={data.currentTime}
     />
   );
@@ -59,24 +61,32 @@ const NowPOST = async () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ query: query.loc!.source.body }),
+    body: JSON.stringify({
+      query: query.loc!.source.body,
+      variables: { id: "3" },
+    }),
   }).then((res) => res.json());
 
   return (
     <ResultRow
       text="Now via fetch"
-      tags={["POST", "Server"]}
+      tags={["POST", "Server", "ID:3"]}
       result={data.currentTime}
     />
   );
 };
 
 const NowApollo = async () => {
-  const { data } = await client.query({ query });
+  const { data } = await client.query({
+    query,
+    variables: {
+      id: "4",
+    },
+  });
 
   return (
     <ResultRow
-      tags={["POST", "Apollo", "Server"]}
+      tags={["POST", "Apollo", "Server", "ID:4"]}
       text="Now via Apollo"
       result={data.currentTime}
     />
@@ -86,6 +96,9 @@ const NowApollo = async () => {
 const NowApolloRevalidate = async () => {
   const { data } = await client.query({
     query,
+    variables: {
+      id: "5",
+    },
     context: {
       fetchOptions: {
         next: {
@@ -97,7 +110,7 @@ const NowApolloRevalidate = async () => {
 
   return (
     <ResultRow
-      tags={["POST", "Apollo", "Server", "Revalidate"]}
+      tags={["POST", "Apollo", "Server", "Revalidate", "ID:5"]}
       text="Now via Apollo"
       result={data.currentTime}
     />
@@ -105,12 +118,17 @@ const NowApolloRevalidate = async () => {
 };
 
 const NowApolloNoCache = async () => {
-  const { data } = await clientNoCache.query({ query });
+  const { data } = await clientNoCache.query({
+    query,
+    variables: {
+      id: "6",
+    },
+  });
 
   return (
     <ResultRow
       text="Now via Apollo"
-      tags={["POST", "Apollo", "Server", "No Apollo Cache"]}
+      tags={["POST", "Apollo", "Server", "No Apollo Cache", "ID:6"]}
       result={data.currentTime}
     />
   );
@@ -118,6 +136,9 @@ const NowApolloNoCache = async () => {
 const NowApolloNoCacheRevalidate = async () => {
   const { data } = await clientNoCache.query({
     query,
+    variables: {
+      id: "7",
+    },
     context: {
       fetchOptions: {
         next: {
@@ -130,7 +151,14 @@ const NowApolloNoCacheRevalidate = async () => {
   return (
     <ResultRow
       text="Now via Apollo"
-      tags={["POST", "Apollo", "Server", "No Apollo Cache", "Revalidate"]}
+      tags={[
+        "POST",
+        "Apollo",
+        "Server",
+        "No Apollo Cache",
+        "Revalidate",
+        "ID:7",
+      ]}
       result={data.currentTime}
     />
   );
