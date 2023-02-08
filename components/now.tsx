@@ -17,7 +17,7 @@ const query = gql`
   }
 `;
 
-const NowGET = async () => {
+export const NowGET = async () => {
   const qs = new URLSearchParams();
   qs.append("query", query.loc!.source.body);
   qs.append("variables", JSON.stringify({ id: "1" }));
@@ -35,7 +35,7 @@ const NowGET = async () => {
   );
 };
 
-const NowGETRevalidate = async () => {
+export const NowGETRevalidate = async () => {
   const qs = new URLSearchParams();
   qs.append("query", query.loc!.source.body);
   qs.append("variables", JSON.stringify({ id: "2" }));
@@ -55,7 +55,7 @@ const NowGETRevalidate = async () => {
   );
 };
 
-const NowPOST = async () => {
+export const NowPOST = async () => {
   const { data } = await fetch(API_URL, {
     method: "POST",
     headers: {
@@ -76,7 +76,7 @@ const NowPOST = async () => {
   );
 };
 
-const NowApollo = async () => {
+export const NowApollo = async () => {
   const { data } = await client.query({
     query,
     variables: {
@@ -93,7 +93,7 @@ const NowApollo = async () => {
   );
 };
 
-const NowApolloRevalidate = async () => {
+export const NowApolloRevalidate = async () => {
   const { data } = await client.query({
     query,
     variables: {
@@ -117,7 +117,7 @@ const NowApolloRevalidate = async () => {
   );
 };
 
-const NowApolloNoCache = async () => {
+export const NowApolloNoCache = async () => {
   const { data } = await clientNoCache.query({
     query,
     variables: {
@@ -133,7 +133,7 @@ const NowApolloNoCache = async () => {
     />
   );
 };
-const NowApolloNoCacheRevalidate = async () => {
+export const NowApolloNoCacheRevalidate = async () => {
   const { data } = await clientNoCache.query({
     query,
     variables: {
@@ -170,17 +170,11 @@ export const Now = () => {
       {/* @ts-expect-error Server Component */}
       <NowGET />
       {/* @ts-expect-error Server Component */}
-      <NowGETRevalidate />
-      {/* @ts-expect-error Server Component */}
       <NowPOST />
       {/* @ts-expect-error Server Component */}
       <NowApollo />
       {/* @ts-expect-error Server Component */}
       <NowApolloNoCache />
-      {/* @ts-expect-error Server Component */}
-      <NowApolloRevalidate />
-      {/* @ts-expect-error Server Component */}
-      <NowApolloNoCacheRevalidate />
 
       <NowApolloClient />
 
