@@ -1,8 +1,4 @@
-import {
-  NowApolloNoCacheRevalidate,
-  NowApolloRevalidate,
-  NowGETRevalidate,
-} from "./now";
+import { NowApolloRevalidate, NowGETRevalidate } from "./now";
 
 export const NowRevalidate = () => {
   return (
@@ -11,8 +7,6 @@ export const NowRevalidate = () => {
       <NowGETRevalidate />
       {/* @ts-expect-error Server Component */}
       <NowApolloRevalidate />
-      {/* @ts-expect-error Server Component */}
-      <NowApolloNoCacheRevalidate />
     </dl>
   );
 };

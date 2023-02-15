@@ -1,6 +1,6 @@
 "use client";
 
-import { client } from "@/lib/client";
+import { getClient } from "@/lib/client";
 import {
   ApolloProvider,
   gql,
@@ -35,6 +35,8 @@ const mutation = gql`
 `;
 
 const UpdateTimeButton = () => {
+  const client = getClient();
+
   const [updateTime, { loading, error }] = useMutation(mutation, {
     client,
   });
@@ -89,6 +91,8 @@ const Loading = () => {
 };
 
 export const NowApolloClientSuspense = () => {
+  const client = getClient();
+
   return (
     <ApolloProvider client={client} suspenseCache={suspenseCache}>
       <Suspense fallback={<Loading />}>

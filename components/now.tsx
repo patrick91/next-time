@@ -1,4 +1,4 @@
-import { client, clientNoCache } from "@/lib/client";
+import { getClient } from "@/lib/client";
 import { gql } from "@apollo/client";
 
 import { NowApolloClient } from "./now-client";
@@ -77,6 +77,8 @@ export const NowPOST = async () => {
 };
 
 export const NowApollo = async () => {
+  const client = getClient();
+
   const { data } = await client.query({
     query,
     variables: {
@@ -94,6 +96,8 @@ export const NowApollo = async () => {
 };
 
 export const NowApolloRevalidate = async () => {
+  const client = getClient();
+
   const { data } = await client.query({
     query,
     variables: {
@@ -117,53 +121,6 @@ export const NowApolloRevalidate = async () => {
   );
 };
 
-export const NowApolloNoCache = async () => {
-  const { data } = await clientNoCache.query({
-    query,
-    variables: {
-      id: "6",
-    },
-  });
-
-  return (
-    <ResultRow
-      text="Now via Apollo"
-      tags={["POST", "Apollo", "Server", "No Apollo Cache", "ID:6"]}
-      result={data.currentTime}
-    />
-  );
-};
-export const NowApolloNoCacheRevalidate = async () => {
-  const { data } = await clientNoCache.query({
-    query,
-    variables: {
-      id: "7",
-    },
-    context: {
-      fetchOptions: {
-        next: {
-          revalidate: 1,
-        },
-      },
-    },
-  });
-
-  return (
-    <ResultRow
-      text="Now via Apollo"
-      tags={[
-        "POST",
-        "Apollo",
-        "Server",
-        "No Apollo Cache",
-        "Revalidate",
-        "ID:7",
-      ]}
-      result={data.currentTime}
-    />
-  );
-};
-
 export const Now = () => {
   return (
     <dl className="text-2xl grid grid-cols-2 gap-4">
@@ -173,8 +130,6 @@ export const Now = () => {
       <NowPOST />
       {/* @ts-expect-error Server Component */}
       <NowApollo />
-      {/* @ts-expect-error Server Component */}
-      <NowApolloNoCache />
 
       <NowApolloClient />
 
