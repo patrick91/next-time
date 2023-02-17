@@ -1,6 +1,8 @@
 "use client";
-
-import { getClient } from "@/lib/client";
+// import this to trigger `registerApolloClient` before the components render
+// there might be a better way of doing this, I'm not very familiar with next
+import "@/lib/client";
+import { getClient } from "@/lib/apollo-next";
 import {
   ApolloProvider,
   gql,

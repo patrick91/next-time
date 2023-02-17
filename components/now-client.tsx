@@ -1,7 +1,10 @@
 "use client";
 
-import { getClient } from "@/lib/client";
-import { gql, useMutation, useQuery } from "@apollo/client";
+// import this to trigger `registerApolloClient` before the components render
+// there might be a better way of doing this, I'm not very familiar with next
+import "@/lib/client";
+import { useMutation, useQuery } from "@/lib/apollo-next";
+import { gql } from "@apollo/client";
 import { format } from "date-fns";
 import { Tag } from "./tag";
 
@@ -26,11 +29,7 @@ const mutation = gql`
 `;
 
 const UpdateTimeButton = () => {
-  const client = getClient();
-
-  const [updateTime, { loading, error }] = useMutation(mutation, {
-    client,
-  });
+  const [updateTime, { loading, error }] = useMutation(mutation);
 
   return (
     <button
@@ -51,11 +50,7 @@ const UpdateTimeButton = () => {
 };
 
 export const NowApolloClient = () => {
-  const client = getClient();
-
-  const { loading, data, error } = useQuery(query, {
-    client,
-  });
+  const { loading, data, error } = useQuery(query);
 
   const tags = ["POST", "Apollo", "Client"];
 

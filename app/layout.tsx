@@ -1,6 +1,10 @@
 import { Links } from "@/components/links";
 import "./globals.css";
 
+// import this to trigger `registerApolloClient` before the components render
+// there might be a better way of doing this, I'm not very familiar with next
+import "@/lib/client";
+
 export default function RootLayout({
   children,
 }: {
