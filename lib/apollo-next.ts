@@ -1,6 +1,10 @@
 // "library code - would be imported from an experimental library"
 
-import { ApolloClient, useQuery as _useQuery, useMutation as _useMutation } from "@apollo/client";
+import {
+  ApolloClient,
+  useQuery as _useQuery,
+  useMutation as _useMutation,
+} from "@apollo/client";
 import { invariant } from "@apollo/client/utilities/globals";
 import { requestAsyncStorage } from "next/dist/client/components/request-async-storage";
 
@@ -18,7 +22,10 @@ declare module "next/dist/client/components/request-async-storage" {
 }
 
 let globalMakeClient: () => ApolloClient<any> = () => {
-  invariant(false, "You need to call `registerApolloClient` before using the global Apollo Client");
+  invariant(
+    false,
+    "You need to call `registerApolloClient` before using the global Apollo Client"
+  );
 };
 
 export function registerApolloClient(makeClient: () => ApolloClient<any>) {
@@ -29,13 +36,16 @@ const clientApolloSingletons: ApolloSingletons = {};
 
 export const getClient = (): ApolloClient<any> => {
   let apolloSingletons: ApolloSingletons;
-  if (typeof window !== "undefined") {
+  if (typeof window === "undefined") {
     if (!(globalThis as any).AsyncLocalStorage) {
       // we are in a context where `requestAsyncStorage` is not available, we have no way of doing singletons - create a new client
       return globalMakeClient();
     }
     const store = requestAsyncStorage.getStore();
-    invariant(store, `Method expects to have requestAsyncStorage, none available`);
+    invariant(
+      store,
+      `Method expects to have requestAsyncStorage, none available`
+    );
     apolloSingletons = store[apolloSymbol] ??= {};
   } else {
     apolloSingletons = clientApolloSingletons;
