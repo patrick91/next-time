@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@apollo/client': 3.8.0-alpha.5
+  '@apollo/client': 0.0.0-pr-10594-20230223111013
   '@next/font': 13.1.5
   '@types/node': 18.11.18
   '@types/react': 18.0.27
@@ -20,7 +20,7 @@ specifiers:
   typescript: 4.9.4
 
 dependencies:
-  '@apollo/client': 3.8.0-alpha.5_gdcq4dv6opitr3wbfwyjmanyra
+  '@apollo/client': 0.0.0-pr-10594-20230223111013_gdcq4dv6opitr3wbfwyjmanyra
   '@next/font': 13.1.5
   '@types/node': 18.11.18
   '@types/react': 18.0.27
@@ -38,12 +38,12 @@ dependencies:
 devDependencies:
   autoprefixer: 10.4.13_postcss@8.4.21
   postcss: 8.4.21
-  tailwindcss: 3.2.4_postcss@8.4.21
+  tailwindcss: 3.2.4
 
 packages:
 
-  /@apollo/client/3.8.0-alpha.5_gdcq4dv6opitr3wbfwyjmanyra:
-    resolution: {integrity: sha512-39UGB9CXos58rnpPhk0jcKOtdAKT1yl4DjhC5e2jXf9g/hwnWvulylJD91aOYgT4Q5guNJy0CTPTCHV/bwI3AA==}
+  /@apollo/client/0.0.0-pr-10594-20230223111013_gdcq4dv6opitr3wbfwyjmanyra:
+    resolution: {integrity: sha512-9ocYzB03opRKgKEO+MKWyaTkc3RyjDYOm3BEh3b31ju3Z83EgliJ5lwYHXujvTOAt058UURNU2LH/pvC3UskIw==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
       graphql-ws: ^5.5.5
@@ -922,7 +922,7 @@ packages:
       eslint: 8.32.0
       eslint-import-resolver-node: 0.3.7
       eslint-import-resolver-typescript: 3.5.3_ps7hf4l2dvbuxvtusmrfhmzsba
-      eslint-plugin-import: 2.27.5_eslint@8.32.0
+      eslint-plugin-import: 2.27.5_tto3jvfrcbe7ndbi56p7uxhaki
       eslint-plugin-jsx-a11y: 6.7.1_eslint@8.32.0
       eslint-plugin-react: 7.32.1_eslint@8.32.0
       eslint-plugin-react-hooks: 4.6.0_eslint@8.32.0
@@ -952,7 +952,7 @@ packages:
       debug: 4.3.4
       enhanced-resolve: 5.12.0
       eslint: 8.32.0
-      eslint-plugin-import: 2.27.5_eslint@8.32.0
+      eslint-plugin-import: 2.27.5_tto3jvfrcbe7ndbi56p7uxhaki
       get-tsconfig: 4.3.0
       globby: 13.1.3
       is-core-module: 2.11.0
@@ -962,7 +962,7 @@ packages:
       - supports-color
     dev: false
 
-  /eslint-module-utils/2.7.4_tdm2zecdp3gdwhfxnfmevnwugq:
+  /eslint-module-utils/2.7.4_xoxtsypck35xtelm3fn5dkquvy:
     resolution: {integrity: sha512-j4GT+rqzCoRKHwURX7pddtIPGySnX9Si/cgMI5ztrcqOPtk5dDEeZ34CQVPphnqkJytlc97Vuk05Um2mJ3gEQA==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -983,14 +983,16 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
+      '@typescript-eslint/parser': 5.49.0_7uibuqfxkfaozanbtbziikiqje
       debug: 3.2.7
       eslint: 8.32.0
       eslint-import-resolver-node: 0.3.7
+      eslint-import-resolver-typescript: 3.5.3_ps7hf4l2dvbuxvtusmrfhmzsba
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /eslint-plugin-import/2.27.5_eslint@8.32.0:
+  /eslint-plugin-import/2.27.5_tto3jvfrcbe7ndbi56p7uxhaki:
     resolution: {integrity: sha512-LmEt3GVofgiGuiE+ORpnvP+kAm3h6MLZJ4Q5HCyHADofsb4VzXFsRiWj3c0OFiV+3DWFh0qg3v9gcPlfc3zRow==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -1000,6 +1002,7 @@ packages:
       '@typescript-eslint/parser':
         optional: true
     dependencies:
+      '@typescript-eslint/parser': 5.49.0_7uibuqfxkfaozanbtbziikiqje
       array-includes: 3.1.6
       array.prototype.flat: 1.3.1
       array.prototype.flatmap: 1.3.1
@@ -1007,7 +1010,7 @@ packages:
       doctrine: 2.1.0
       eslint: 8.32.0
       eslint-import-resolver-node: 0.3.7
-      eslint-module-utils: 2.7.4_tdm2zecdp3gdwhfxnfmevnwugq
+      eslint-module-utils: 2.7.4_xoxtsypck35xtelm3fn5dkquvy
       has: 1.0.3
       is-core-module: 2.11.0
       is-glob: 4.0.3
@@ -2365,12 +2368,10 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /tailwindcss/3.2.4_postcss@8.4.21:
+  /tailwindcss/3.2.4:
     resolution: {integrity: sha512-AhwtHCKMtR71JgeYDaswmZXhPcW9iuI9Sp2LvZPo9upDZ7231ZJ7eA9RaURbhpXGVlrjX4cFNlB4ieTetEb7hQ==}
     engines: {node: '>=12.13.0'}
     hasBin: true
-    peerDependencies:
-      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
