@@ -1,4 +1,4 @@
-import { getClient } from "@/lib/client";
+import { getClient } from "@/lib/apollo-next";
 import { gql } from "@apollo/client";
 
 import { NowApolloClient } from "./now-client";
@@ -22,16 +22,10 @@ export const NowGET = async () => {
   qs.append("query", query.loc!.source.body);
   qs.append("variables", JSON.stringify({ id: "1" }));
 
-  const { data } = await fetch(API_URL + `?` + qs.toString()).then((res) =>
-    res.json()
-  );
+  const { data } = await fetch(API_URL + `?` + qs.toString()).then((res) => res.json());
 
   return (
-    <ResultRow
-      tags={["GET", "Server", "ID:1"]}
-      text="Now via fetch"
-      result={data.currentTime}
-    />
+    <ResultRow tags={["GET", "Server", "ID:1"]} text="Now via fetch" result={data.currentTime} />
   );
 };
 
@@ -68,11 +62,7 @@ export const NowPOST = async () => {
   }).then((res) => res.json());
 
   return (
-    <ResultRow
-      text="Now via fetch"
-      tags={["POST", "Server", "ID:3"]}
-      result={data.currentTime}
-    />
+    <ResultRow text="Now via fetch" tags={["POST", "Server", "ID:3"]} result={data.currentTime} />
   );
 };
 
