@@ -60,11 +60,7 @@ const UpdateTimeButton = () => {
 };
 
 export const Now = () => {
-  const client = getClient();
-  const { data } = useSuspenseQuery_experimental(query, {
-    suspenseCache,
-    client,
-  });
+  const { data } = useSuspenseQuery_experimental(query);
 
   const tags = ["POST", "Apollo", "Client", "Suspense"];
 
@@ -95,9 +91,13 @@ const Loading = () => {
 };
 
 export const NowApolloClientSuspense = () => {
+  const client = getClient();
+
   return (
-    <Suspense fallback={<Loading />}>
-      <Now />
-    </Suspense>
+    <ApolloProvider client={client} suspenseCache={suspenseCache}>
+      <Suspense fallback={<Loading />}>
+        <Now />
+      </Suspense>
+    </ApolloProvider>
   );
 };
