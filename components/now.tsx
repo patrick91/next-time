@@ -2,7 +2,6 @@ import { getClient } from "@/lib/client";
 import { gql } from "@apollo/client";
 
 import { NowApolloClient } from "./now-client";
-import { NowApolloClientSuspense } from "./now-client-suspense";
 import { ResultRow } from "./result-row";
 
 const API_URL = "https://holy-waterfall-2142.fly.dev/";
@@ -132,8 +131,6 @@ export const Now = () => {
       <NowApollo />
 
       <NowApolloClient />
-
-      <NowApolloClientSuspense />
     </dl>
   );
 };
